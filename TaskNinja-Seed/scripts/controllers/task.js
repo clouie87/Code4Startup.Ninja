@@ -5,6 +5,12 @@ app.controller('TaskController', function($scope, FURL, $firebase, $location, $r
   var fbTasks = $firebase(ref.child('tasks')).$asArray();
   var taskId = $routeParams.taskId;
 
+  fbTasks.$loaded().then(function(data){
+    console.log('Length =' + fbTasks.length); //so need to wait for data to comem back
+
+  });
+
+
   if (taskId){
     $scope.selectedTask = getTask(taskId)
   }

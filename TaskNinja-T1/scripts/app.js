@@ -2,17 +2,17 @@
 
 var app = angular
   .module('TaskNinjaApp', [
-    'ngAnimate',    
+    'ngAnimate',
     'ngResource',
-    'ngRoute',    
+    'ngRoute',
     'firebase'
   ])
-  .constant('FURL', 'https://task-ninja.firebaseio.com/')  
+  .constant('FURL', 'https://task-ninja.firebaseio.com/')
   .config(function ($routeProvider) {
-    $routeProvider      
+    $routeProvider
       .when('/', {
         templateUrl: 'views/browse.html',
-        controller: 'TaskController'     
+        controller: 'TaskController'
       })
       .when('/post', {
         templateUrl: 'views/post.html',
@@ -24,5 +24,6 @@ var app = angular
       })
       .otherwise({
         redirectTo: '/'
+
       });
   });
