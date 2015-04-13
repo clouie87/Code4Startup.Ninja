@@ -28,6 +28,7 @@ var app = angular
         templateUrl: 'views/browse.html',
         controller: 'BrowseController'
       })
+
       .otherwise({
         redirectTo: '/'
       });
