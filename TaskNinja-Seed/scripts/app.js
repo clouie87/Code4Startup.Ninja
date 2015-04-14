@@ -21,7 +21,7 @@ var app = angular
         controller: 'AuthController'
       })
       .when('/register', {
-        templateUrl: 'views/register.html',
+        templateUrl: 'views/Register.html',
         controller: 'AuthController'
       })
       .when('/browse/:taskId', {
