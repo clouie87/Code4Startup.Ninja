@@ -25,12 +25,24 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
     //get the task that is selected and make it the variable selectedTask
 
     if($scope.signedIn()){
+
+      //Check if the current signed in user has already made an offer on this specific task
+      Offer.isOffered(task.$id).then(function(data){
+        $scope.alreadyOffered = data;
+      });
+
       $scope.isTaskCreator = Task.isCreator; //checks if user is the task creator
       $scope.isOpen = Task.isOpen; //checks if the task is open
+
+      $scope.isAssignee = Task.isAssignee;
+      $scope.isCompleted = Task.isCompleted;
+
     }
 
     $scope.comments = Comment.comments(task.$id);
     $scope.offers = Offer.offers(task.$id);
+    $scope.isOfferMaker = Offer.isMaker;
+
 
   };
 
@@ -60,8 +72,32 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
     };
 
     Offer.makeOffer($scope.selectedTask.$id, offer).then(function(){
-      toaster.pop('success', "You'rE offer has been placed!");
+      toaster.pop('success', "Your offer has been placed!");
       $scope.total='';
+      $scope.block=true;
+      $scope.alreadyOffered=true;
+    });
+
+    };
+  $scope.cancelOffer = function(offerId){
+    console.log('cancel offer');
+    Offer.cancelOffer($scope.selectedTask.$id, offerId).then(function(){
+      toaster.pop('success', 'Your offer has been cancelled!');
+
+      $scope.alreadyOffered = false; //unblocks the disable
+      $scope.block = false; //unblocks the disabled condition
+    });
+  };
+
+  $scope.acceptOffer = function(offerId, runnerId){
+    Offer.acceptOffer($scope.selectedTask.$id, offerId, runnerId).then(function(){
+      toaster.pop('success', 'Your offer has been accepted');
+    });
+  };
+
+  $scope.completeTask = function(taskId) {
+    Task.completeTask(taskId).then(function(){
+      toaster.pop('success', 'Congratulations! You have completed the task!');
     });
   }
 
