@@ -18,6 +18,11 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase){
       return profileRef.$set(uid, profile);
     },
 
+    getProfile: function(uid) {
+      return $firebase(ref.child('profile').child(uid)).$asObject();
+      //here we can get the name and email from the profile
+    },
+
     login: function(user) {
       console.log('logging in');
       return auth.$authWithPassword(
@@ -48,6 +53,9 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase){
       //console.log('the user is signed in');
       return !!Auth.user.provider;
       //same as Auth.user && Auth.user.provider just shorter
+    },
+    requireAuth: function(){
+      return auth.$requireAuth();
     }
   };
 
